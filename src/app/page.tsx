@@ -1,11 +1,12 @@
 import Link from "next/link";
+import Table from "@/Component/table";
 
 import x from "@/styles/app.module.css";
 import y from "@/styles/test.module.css";
 
 export default function Home() {
   return (
-    <div className="">
+    <div className="container">
       <ul>
         <li className={x["red"]}>
           <Link href="/facebook">
@@ -19,6 +20,7 @@ export default function Home() {
           <Link href="/tiktok">tiktok</Link>
         </li>
       </ul>
+      <Table />
     </div>
   );
 }

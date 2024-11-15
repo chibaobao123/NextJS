@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 
+import Header from "@/Component/header";
+import Footer from "@/Component/footer";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const geistSans = localFont({
@@ -31,8 +34,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <div>Chí Bảo Bảo</div>
+        <Header />
         {children}
-        <footer>footer</footer>
+        <Footer />
       </body>
     </html>
   );
