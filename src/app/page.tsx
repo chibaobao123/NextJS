@@ -2,6 +2,9 @@
 
 // import Link from "next/link";
 import Table from "@/Component/table";
+import CreateTable from "@/Component/create.modal";
+
+import { Button } from "react-bootstrap";
 import useSWR from "swr";
 
 export default function Home() {
@@ -27,7 +30,13 @@ export default function Home() {
   return (
     <div className="container">
       <div>{data?.length}</div>
-
+      <div
+        className="mb-3"
+        style={{ display: "flex", justifyContent: "space-between" }}
+      >
+        <h3>Table blogs</h3>
+        <CreateTable />
+      </div>
       <Table blogs={data} />
     </div>
   );
