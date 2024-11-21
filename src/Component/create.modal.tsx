@@ -3,6 +3,7 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
+import { toast } from "react-toastify";
 
 function CreateModal() {
   const [show, setShow] = useState(false);
@@ -15,7 +16,47 @@ function CreateModal() {
   const [content, setContent] = useState<string>("");
 
   const handleSubmit = () => {
-    console.log(title, author, content);
+    // console.log(title, author, content);
+
+    const validates = validate(title, author, content);
+    console.log(validates);
+    if (validates == false) return;
+    // Here you can call your API to create a new post
+    fetch("http://localhost:8000/blogs", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ title, author, content }),
+    })
+      .then(function (res) {
+        return res.json();
+      })
+      .then(function (data) {
+        if (data) {
+          toast.success("successfully created");
+          handleClose();
+          console.log(JSON.stringify(data));
+        }
+      });
+  };
+
+  //validates
+  const validate = (title: string, author: string, content: string) => {
+    if (!title) {
+      toast.error("Title cannot be empty");
+      return false;
+    }
+    if (!author) {
+      toast.error("author cannot be empty");
+      return false;
+    }
+    if (!content) {
+      toast.error("content cannot be empty");
+      return false;
+    }
+    return true;
   };
 
   const handleClose = () => {
