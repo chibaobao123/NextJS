@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import { toast } from "react-toastify";
+import { mutate } from "swr";
 
 function CreateModal() {
   const [show, setShow] = useState(false);
@@ -38,6 +39,7 @@ function CreateModal() {
           toast.success("successfully created");
           handleClose();
           console.log(JSON.stringify(data));
+          mutate("http://localhost:8000/blogs");
         }
       });
   };

@@ -37,7 +37,7 @@ export default function Home() {
         <h3>Table blogs</h3>
         <CreateTable />
       </div>
-      <Table blogs={data} />
+      <Table blogs={data?.sort((a: any, b: any) => b.id - a.id)} />
     </div>
   );
 }
