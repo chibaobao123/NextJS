@@ -1,6 +1,9 @@
 "use client";
 import Table from "react-bootstrap/Table";
+
 import { Button } from "react-bootstrap";
+
+import UpdateModal from "@/Component/update.modal";
 
 interface IProps {
   blogs: IBlog[];
@@ -8,7 +11,6 @@ interface IProps {
 
 export default function table(props: IProps) {
   const { blogs } = props;
-  console.log(blogs);
   return (
     <>
       <Table striped bordered hover>
@@ -21,17 +23,15 @@ export default function table(props: IProps) {
           </tr>
         </thead>
         <tbody>
-          {blogs.map((blog) => {
+          {blogs.map((item) => {
             return (
-              <tr key={blog.id}>
-                <td>{blog.id}</td>
-                <td>{blog.title}</td>
-                <td>{blog.author}</td>
+              <tr key={item.id}>
+                <td>{item.id}</td>
+                <td>{item.title}</td>
+                <td>{item.author}</td>
                 <td>
                   <Button>view</Button>
-                  <Button variant="warning" className="mx-3">
-                    Edit
-                  </Button>
+                  <UpdateModal blog={item} />
                   <Button variant="danger">delete</Button>
                 </td>
               </tr>

@@ -91,7 +91,7 @@ function CreateModal() {
               <Form.Control
                 type="text"
                 placeholder="..."
-                onChange={(e) => setTitle(e.target.value)}
+                onChange={(e) => setTitle(e.target.value.trim())}
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -99,7 +99,7 @@ function CreateModal() {
               <Form.Control
                 type="text"
                 placeholder="..."
-                onChange={(e) => setAuthor(e.target.value)}
+                onChange={(e) => setAuthor(e.target.value.trim())}
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -107,7 +107,7 @@ function CreateModal() {
               <Form.Control
                 as="textarea"
                 rows={3}
-                onChange={(e) => setContent(e.target.value)}
+                onChange={(e) => setContent(e.target.value.trim())}
               />
             </Form.Group>
           </Form>
