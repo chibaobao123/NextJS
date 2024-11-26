@@ -1,6 +1,8 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import { toast } from "react-toastify";
+import { mutate } from "swr";
 
 import Table from "react-bootstrap/Table";
 import { Button } from "react-bootstrap";
@@ -15,6 +17,31 @@ export default function table(props: IProps) {
   const { blogs } = props;
   const [blogItem, setBlog] = useState<IBlog | null>(null);
   const [showModalUpdate, setShowModalUpdate] = useState<boolean>(false);
+
+  const handleDeleteBlog = (id: number) => {
+    if (confirm(`Are you sure you want to delete this blog (id: ${id})?`)) {
+      fetch(`http://localhost:8000/blogs/${id}`, {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then(function (res) {
+          return res.json();
+        })
+        .then(function (res) {
+          if (res) {
+            console.log(res);
+            toast.success("successfully deleted");
+            console.log(JSON.stringify(res));
+            mutate(`http://localhost:8000/blogs`);
+          }
+        });
+    } else {
+      toast.warning("delete cancelled");
+    }
+  };
   return (
     <>
       <Table striped bordered hover>
@@ -47,7 +74,12 @@ export default function table(props: IProps) {
                   >
                     Edit
                   </Button>
-                  <Button variant="danger">delete</Button>
+                  <Button
+                    variant="danger"
+                    onClick={() => handleDeleteBlog(item.id)}
+                  >
+                    Delete
+                  </Button>
                 </td>
               </tr>
             );
