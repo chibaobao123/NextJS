@@ -1,6 +1,9 @@
-"use client";
+import type { Metadata } from "next";
 
-// import Link from "next/link";
+export const metadata: Metadata = {
+  title: "HomePage",
+  description: "...",
+};
 
 export default function Home() {
   // render data
