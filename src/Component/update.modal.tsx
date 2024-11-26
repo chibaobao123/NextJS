@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
@@ -7,23 +7,38 @@ import { toast } from "react-toastify";
 import { mutate } from "swr";
 
 interface IProps {
-  blog: IBlog;
+  showModalUpdate: boolean;
+  setShowModalUpdate: (value: boolean) => void;
+  blog: IBlog | null;
+  setBlog: (value: IBlog | null) => void;
 }
 
 function UpdateModal(props: IProps) {
-  const { blog } = props;
+  const { showModalUpdate, setShowModalUpdate, blog, setBlog } = props;
 
-  const [show, setShow] = useState(false);
+  const [idItem, setidItem] = useState<number>(0);
+  const [title, setTitle] = useState<string>("");
+  const [author, setAuthor] = useState<string>("");
+  const [content, setContent] = useState<string>("");
 
-  const [idItem, setidItem] = useState<number>(blog.id);
-  const [title, setTitle] = useState<string>(blog.title);
-  const [author, setAuthor] = useState<string>(blog.author);
-  const [content, setContent] = useState<string>(blog.content);
   const [disabled, setDisabled] = useState<boolean>(true);
 
-  const [oldTitle, setOldTitle] = useState<string>(blog.title);
-  const [oldAuthor, setOldAuthor] = useState<string>(blog.author);
-  const [oldContent, setOldContent] = useState<string>(blog.content);
+  const [oldTitle, setOldTitle] = useState<string>("");
+  const [oldAuthor, setOldAuthor] = useState<string>("");
+  const [oldContent, setOldContent] = useState<string>("");
+
+  useEffect(() => {
+    if (blog && blog.id) {
+      setidItem(blog.id);
+      setTitle(blog.title);
+      setAuthor(blog.author);
+      setContent(blog.content);
+
+      setOldTitle(blog.title);
+      setOldAuthor(blog.author);
+      setOldContent(blog.content);
+    }
+  }, [blog]);
 
   const handleSubmit = () => {
     // Here you can call your API to create a new post
@@ -42,7 +57,7 @@ function UpdateModal(props: IProps) {
         if (res) {
           console.log(res);
           toast.success("successfully created");
-          handleCloseModal();
+          handleClose();
           console.log(JSON.stringify(res));
           mutate(`http://localhost:8000/blogs`);
         }
@@ -96,21 +111,23 @@ function UpdateModal(props: IProps) {
   };
 
   const handleClose = () => {
-    setTitle(oldTitle);
-    setAuthor(oldAuthor);
-    setContent(oldContent);
-    handleCloseModal();
+    setTitle("");
+    setAuthor("");
+    setContent("");
+
+    setOldTitle("");
+    setOldAuthor("");
+    setOldContent("");
+
+    setDisabled(true);
+
+    setBlog(null);
+    setShowModalUpdate(false);
   };
-  const handleCloseModal = () => setShow(false);
-  const handleShow = () => setShow(true);
   return (
     <>
-      <Button variant="warning" className="mx-3" onClick={handleShow}>
-        Edit
-      </Button>
-
       <Modal
-        show={show}
+        show={showModalUpdate}
         onHide={handleClose}
         backdrop="static"
         keyboard={false}

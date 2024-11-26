@@ -1,9 +1,11 @@
 "use client";
-import Table from "react-bootstrap/Table";
+import { useState } from "react";
 
+import Table from "react-bootstrap/Table";
 import { Button } from "react-bootstrap";
 
 import UpdateModal from "@/Component/update.modal";
+import CreateModal from "./create.modal";
 
 interface IProps {
   blogs: IBlog[];
@@ -11,6 +13,8 @@ interface IProps {
 
 export default function table(props: IProps) {
   const { blogs } = props;
+  const [blogItem, setBlog] = useState<IBlog | null>(null);
+  const [showModalUpdate, setShowModalUpdate] = useState<boolean>(false);
   return (
     <>
       <Table striped bordered hover>
@@ -31,7 +35,16 @@ export default function table(props: IProps) {
                 <td>{item.author}</td>
                 <td>
                   <Button>view</Button>
-                  <UpdateModal blog={item} />
+                  <Button
+                    variant="warning"
+                    className="mx-3"
+                    onClick={() => {
+                      setBlog(item);
+                      setShowModalUpdate(true);
+                    }}
+                  >
+                    Edit
+                  </Button>
                   <Button variant="danger">delete</Button>
                 </td>
               </tr>
@@ -39,6 +52,12 @@ export default function table(props: IProps) {
           })}
         </tbody>
       </Table>
+      <UpdateModal
+        showModalUpdate={showModalUpdate}
+        setShowModalUpdate={setShowModalUpdate}
+        blog={blogItem}
+        setBlog={setBlog}
+      />
     </>
   );
 }
