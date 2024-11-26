@@ -16,14 +16,8 @@ export default function Header() {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Link className="nav-link" href="/facebook">
-                facebook
-              </Link>
-              <Link className="nav-link" href="/youtube">
-                youtube
-              </Link>
-              <Link className="nav-link" href="/tiktok">
-                tiktok
+              <Link className="nav-link" href="/blogs">
+                Blogs
               </Link>
             </Nav>
           </Navbar.Collapse>
